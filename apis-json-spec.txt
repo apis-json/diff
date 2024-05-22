@@ -1,9 +1,9 @@
 Draft for Comment						   			
 Name: API Discovery Format								
 Informal Name: APIs.json	
-Authors: Kin Lane, Steven Willmott, TBD										
+Authors: Kin Lane, Steven Willmott, Nicolas Grenie										
 Date: 
-Location: http://apicommons.org/apisjson/apisjson_v0.11.txt
+Location: http://apicommons.org/apisjson/apisjson_v0.12.txt
 
 				A Simple Format for Publishing API Meta Data on the Web
 
@@ -168,7 +168,8 @@ Table of Contents
 
     * name [Mandatory]: text string of human readable name for the collection of APIs
     * description [Optional]: text human readable description of the collection of APIs.
-    * Image [Optional]: [[[what is this for?]]]
+    * Image [Optional]: Web URL leading to an image to be used to represent the collection of 
+      APIs defined in this file.
     * url [Mandatory]: Web URL indicating the location of the latest version of this file
     * apis (collection) [Mandatory]: list of APIs identified in the file, each containing:
 
@@ -180,9 +181,9 @@ Table of Contents
         * machineUrl: This is either a link to a primary machine readable definition of the API (if so, 
             those referenced in URLs are treated as secondary), or it is the Web URL corresponding to the 
             ROOT of the API itself. This element determines the uniqueness of the API. 
-            [[[[STEVE: this one is very important]]]]
-        * tags (collection)" [[[STEVE: is this a collection?]]]
-        * urls (collection)
+        * version: version number or indicator.
+        * tags: this is a comma seperate string of topics related to the api. 
+        * urls (collection):
           - type: please see reserved keywords below.
           - url
         * contact (collection)
@@ -196,12 +197,18 @@ Table of Contents
         * name: name of the APIs.json file referenced.
         * url: Web URL of the file.
 
-    * maintainer (collection)
-        * type
+    * maintainers (collection)
+        * name
+        * organizationName
+        * twitter
+        * github
         * url
-        [[[STEVE: Does this need more structure?]]]
+        * email
+        * address
+        * image
+        * ...
 
-    * tags (collection): [[[STEVE: is this a collection type?]]]
+    * tags: this is a comma seperate string of topics related to the file. 
     * modified [Mandatory]: date of last modification of the file
 
 
@@ -282,18 +289,11 @@ Table of Contents
     }
   ],
   "include": [],
-  "maintainer": [
+  "maintainers": [
     {
-      "type": "Name",
-      "url": "Kin Lane"
-    },
-    {
-      "type": "email",
-      "url": "apicommons@gmail.com"
-    },
-    {
-      "type": "twitter",
-      "url": "https://twitter.com/apicommons/"
+      "Name": Kin Lane"
+      "email": apicommons@gmail.com"
+      "twitter": "https://twitter.com/apicommons/"
     }
   ],
   "tags": "api, copyright, application programming interface",
@@ -302,7 +302,7 @@ Table of Contents
 
 Further examples can be found at:
 
- * [[[Any others?]]]
+ * TBD
  * 
  * 
 
@@ -331,7 +331,7 @@ Further examples can be found at:
   * RAML 
   * WADL
   * ...
-  * [[[STEVE: kin you have a list?]]]
+  * TBD
 
   This list may be updated from time to time.
 
