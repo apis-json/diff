@@ -3,7 +3,7 @@ Name: API Discovery Format
 Informal Name: APIs.json	
 Authors: Kin Lane, Steven Willmott, Nicolas Grenie										
 Date: 
-Location: http://apicommons.org/apisjson/apisjson_v0.12.txt
+Location: http://apicommons.org/apisjson/apisjson_v0.13.txt
 
 				A Simple Format for Publishing API Meta Data on the Web
 
@@ -25,7 +25,6 @@ Table of Contents
    4.    Examples   
    5.    Security Considerations 
    6. 	 Reserved Keywords with Definitions
-   7.    References  
    8.    Acknowledgements 
    9.    Author's Address  
 
@@ -35,7 +34,7 @@ Table of Contents
    very difficult to determine the location of these APIs on servers around the Web by 
    automated means. The only way to discover APIs and their properties is via human 
    driven search through public search engines or in hand curated API Directory listings 
-   such as ProgrammableWeb [X]. While these methods work, neither can scale to the potentially
+   such as ProgrammableWeb [2]. While these methods work, neither can scale to the potentially
    hundreds of thousands and millions of APIs which will be published over the next few years.
 
    The objective of the format described in this document is to provide a simple means 
@@ -45,7 +44,7 @@ Table of Contents
 
    This document is written in loose RFC style for the purposes of clarity, but 
    it is not an official recommendation. Discussion around the format takes place
-   on the API Commons mailing list [REF-Kin].
+   on the API Json Mailing list [3].
 
 2. 	Introduction
 
@@ -80,10 +79,10 @@ Table of Contents
 
 3.1.	Access method
 
-   The definitions of API Meta Data must be accessible by HTTP or HTTPS or Both [X] from 
+   The definitions of API Meta Data must be accessible by HTTP or HTTPS or Both from 
    either the site on which the referenced APIs are operating or another site (see below
    for information on Authoritative and Non-Authoritative definitions) as a resource of 
-   Internet Media Type [3] as determined by the content type (see section XX) under 
+   Internet Media Type as determined by the content type under 
    a standard relative path on the server: "/apis.*", where * is determined by the 
    content type of the file.
 
@@ -91,7 +90,7 @@ Table of Contents
    file", though the resource need in fact not originate from a file-
    system.
 
-   Some examples of URLs [4] for sites and URLs for corresponding
+   Some examples of URLs for sites and URLs for corresponding
    "/apis.*" sites:
 
      http://www.foo.com/apis.txt
@@ -130,10 +129,10 @@ Table of Contents
 
 3.2.3    Authority by Reference
 
-   [We may wish to allow the case where a top level apis.json file on a given domain has 
-    pointers to files on other servers which define APIs on the domain of the first 
-    file. These could then be considered authoritative. This is complex but might be a real 
-    use case.]
+   For Discussion: We may wish to allow the case where a top level apis.json file on a given domain has 
+   pointers to files on other servers which define APIs on the domain of the first 
+  file. These could then be considered authoritative. This is complex but might be a real 
+   use case.
 
 3.2.4.   Conflict Resolution
 
@@ -167,10 +166,15 @@ Table of Contents
    A file shall be in json format and contain the following elements:
 
     * name [Mandatory]: text string of human readable name for the collection of APIs
-    * description [Optional]: text human readable description of the collection of APIs.
+    * description [Mandatory]: text human readable description of the collection of APIs.
     * Image [Optional]: Web URL leading to an image to be used to represent the collection of 
       APIs defined in this file.
     * url [Mandatory]: Web URL indicating the location of the latest version of this file
+    * tags: this is a comma seperate string of topics related to the file. 
+    * created [Mandatory]: date of creation of the file
+    * modified [Mandatory]: date of last modification of the file
+    * specificationVersion [Mandatory]: version of the APIs.json specification in use.
+    
     * apis (collection) [Mandatory]: list of APIs identified in the file, each containing:
 
         * name: name of the API
@@ -181,6 +185,7 @@ Table of Contents
         * machineUrl: This is either a link to a primary machine readable definition of the API (if so, 
             those referenced in URLs are treated as secondary), or it is the Web URL corresponding to the 
             ROOT of the API itself. This element determines the uniqueness of the API. 
+        * APIVersion: Version number of the API this description refers to. 
         * version: version number or indicator.
         * tags: this is a comma seperate string of topics related to the api. 
         * urls (collection):
@@ -206,10 +211,7 @@ Table of Contents
         * email
         * address
         * image
-        * ...
 
-    * tags: this is a comma seperate string of topics related to the file. 
-    * modified [Mandatory]: date of last modification of the file
 
 
     The above elements determine the information to tbe provided (examples are provided lower down). In 
@@ -300,12 +302,6 @@ Table of Contents
   "modified": "04/07/2014"
 }
 
-Further examples can be found at:
-
- * TBD
- * 
- * 
-
 
 5. 	Security Considerations
 
@@ -331,14 +327,14 @@ Further examples can be found at:
   * RAML 
   * WADL
   * ...
-  * TBD
 
-  This list may be updated from time to time.
+  This list may be updated from time to time and maintenaned exernally.
 
+7. References
 
-7. 	References
-
-   TBD
+ [1] http://en.wikipedia.org/wiki/Web_API
+ [2] http://www.programmableweb.com
+ [3] https://groups.google.com/forum/#!forum/apisjson
 
 8. 	Acknowledgements
 
