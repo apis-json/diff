@@ -2,8 +2,8 @@ Draft for Comment
 Name: API Discovery Format
 Informal Name: APIs.json or APIs.yaml
 Authors: Kin Lane, Steve Willmott
-Date: 10/13/2026
-Location: http://apisjson.org/format/apisjson_v0.24.txt
+Date: 11/07/2026
+Location: http://apisjson.org/format/apisjson_v0.25.txt
 
 A Simple Format for Publishing API Meta Data on the Web.
 
@@ -245,6 +245,7 @@ Table of Contents
             - url [Optional]: The URL for the workflow. * must be url or data
             - data [Optional]: The data for the workflow. * must be url or data
             - tags: (collection) [Optional]: this is a list of descriptive strings which identify the workflow.
+            - humanURL [Optional]: Web URL where a person can read or run the workflow.
         * contact (collection)
             - [Person or Organization - see below]
 
@@ -283,6 +284,7 @@ Table of Contents
       - url [Optional]: The URL for the workflow. * must be url or data
       - data [Optional]: The data for the workflow. * must be url or data
       - tags: (collection) [Optional]: this is a list of descriptive strings which identify the workflow.
+      - humanURL [Optional]: Web URL where a person can read or run the workflow.
 
     * overlays (collection) [Optional]: an optional list of overlays to apply to primary APIs.json.
       - type [Optional]: The type of overlay being made available.
@@ -293,6 +295,7 @@ Table of Contents
       - url [Mandatory]: Web URL of the file.
 
     * networks (collection) [Optional]: an optional list of related API nodes to search in a network.
+      The singular spelling "network" is accepted for compatibility with earlier schemas; publishers should use networks.
       - name [Optional]: The name of network being made available.
       - url [Optional]: The URL for the network search node.
 
@@ -304,16 +307,21 @@ Table of Contents
 
     The Person or Organization is defined as containing:
 
-        * fn [Optional]: String Value corresponding to the Full Name name of the individual / organization.
-        * email [Optional]: String Value corresponding to the email address of the individual / organization
-        * url [Optional]: String Value corresponding to a web page about the individual individual / organization
-        * org [Optional]: String Value representing the name of the organization associated with the cCard.
+        * FN [Optional]: String Value corresponding to the Full Name of the individual / organization.
+        * email [Optional]: String Value corresponding to the email address of the individual / organization.
+        * url [Optional]: String Value corresponding to a web page about the individual / organization.
+        * organizationName [Optional]: String Value representing the name of the organization associated with the vCard.
         * adr [Optional]: String Value corresponding to the physical address of the individual / organization.
         * tel [Optional]: String Value corresponding to the phone number including country code of the individual / organization.
-        * x-twitter [Optional]: String Value corresponding to the twitter username of the individual / organization (convention do not use the "@" symbol). Note - these are X- since this is the way they are / would be in vCard.
-        * x-github [Optional]: String Value corresponding to the github username of the individual / organization. Note - these are X- since this is the way they are / would be in vCard.
+        * X-twitter [Optional]: String Value corresponding to the X (Twitter) username of the individual / organization (convention do not use the "@" symbol).
+        * X-github [Optional]: String Value corresponding to the GitHub username of the individual / organization.
         * photo [Optional]: URL corresponding to an image which could be used to represent the individual / organization.
         * vCard [Optional]: URL pointing to a vCard Objective RFC6350
+
+    These are the names the examples in section 4 and the JSON Schema have always used. Through 0.24 this
+    section listed lowercase vCard spellings (fn, org, x-twitter, x-github) instead; those spellings remain
+    valid, and fn and org are read as FN and organizationName. Any other social or contact handle is an
+    extension (section 3.9), for example "x-mastodon" or "x-bluesky".
 
     The labelled values are all taken from the vCard specification.
 
@@ -392,7 +400,23 @@ Table of Contents
 
 3.9. Extensions
 
-  TBD
+  An APIs.json document may carry information this specification does not define, as extensions.
+
+  Where. An extension may appear on the document itself, on any entry in apis, on any property (an
+  entry in common, properties, prompts, rules or workflows), and on any Person or Organization.
+
+  Keys. An extension key begins with "x-" or "X-". Both are valid. Lower case matches the
+  convention used by OpenAPI and JSON Schema and is preferred.
+
+  Values. An extension value may be any JSON value: a string, number, boolean, array or object.
+  Earlier schemas required an object; a scalar such as "x-tier: enterprise" is now valid.
+
+  Property types. A property whose type is not a reserved keyword (section 6) or a recognised
+  synonym must use an extension type, prefixed "x-" or "X-", for example "x-internal-runbook".
+
+  Unknown keys. A key that is neither defined by this specification nor prefixed as an extension
+  is allowed, and a consumer that does not recognise it MUST ignore it rather than reject the
+  document. Publishers SHOULD prefix their own keys, so a future version cannot collide with them.
 
 4.	Examples
 
@@ -411,7 +435,7 @@ Table of Contents
       "created": "2026-05-01",
       "modified": "2026-05-01",
       "url": "http://example.com/apis.json",
-      "specificationVersion": "0.23",
+      "specificationVersion": "0.25",
       "apis": [
          {
             "aid": "apis.json:example-api",
@@ -802,220 +826,219 @@ Table of Contents
       aid: apis.json
       name: Example API
       type: Index
-      description: |-
-      This is an example APIs.json file, demonstrating what is possible with the API discovery specification.
+      description: This is an example APIs.json file, demonstrating what is possible with the API discovery specification.
       image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
       tags:
-      - Application Programming Interface
-      - API
+        - Application Programming Interface
+        - API
       created: '2026-05-01'
       modified: '2026-05-01'
       url: http://example.com/apis.json
-      specificationVersion: '0.23'
+      specificationVersion: '0.25'
       apis:
-      - aid: apis.json:example-api
-         name: Example API
-         description: This provides details about a specific API, telling what is possible.
-         image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-         humanURL: http://example.com
-         baseURL: http://api.example.com
-         tags:
+        - aid: apis.json:example-api
+          name: Example API
+          description: This provides details about a specific API, telling what is possible.
+          image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+          humanURL: http://example.com
+          baseURL: http://api.example.com
+          tags:
             - API
             - Application Programming Interface
-         properties:
+          properties:
             - type: Documentation
-            url: https://example.com/documentation
+              url: https://example.com/documentation
             - type: OpenAPI
-            url: http://example.com/openapi.yml
+              url: http://example.com/openapi.yml
             - type: Swagger
-            url: http://example.com/swagger.yml
+              url: http://example.com/swagger.yml
             - type: JSONSchema
-            url: http://example.com/json-schema.json
+              url: http://example.com/json-schema.json
             - type: GraphQLSchema
-            url: http://example.com/graphqlql.schema
+              url: http://example.com/graphqlql.schema
             - type: PostmanCollection
-            url: http://example.com/postman-collection.json
+              url: http://example.com/postman-collection.json
             - type: AsyncAPI
-            url: http://example.com/asyncapi.json
+              url: http://example.com/asyncapi.json
             - type: RAML
-            url: http://example.com/raml.yml
+              url: http://example.com/raml.yml
             - type: Blueprint
-            url: http://example.com/blueprint.apib
+              url: http://example.com/blueprint.apib
             - type: WADL
-            url: http://example.com/wadl.xml
+              url: http://example.com/wadl.xml
             - type: WSDL
-            url: http://example.com/api.wsdl
+              url: http://example.com/api.wsdl
             - type: ALPS
-            url: http://example.com/api.alps
+              url: http://example.com/api.alps
             - type: OpenAIPluginManifest
-            url: https://example.com/openaiplugin.yml
+              url: https://example.com/openaiplugin.yml
             - type: JSONLD
-            url: https://example.com/json-ld.json
+              url: https://example.com/json-ld.json
             - type: JSONForms
-            url: http://example.com/json-forms
+              url: http://example.com/json-forms
             - type: Arazzo
-            url: http://example.com/arazzo
+              url: http://example.com/arazzo
             - type: Compare
-            url: http://example.com/compare
+              url: http://example.com/compare
             - type: InsomniaCollection
-            url: http://example.com/run-in-insomnia
+              url: http://example.com/run-in-insomnia
             - type: Evolution
-            url: http://example.com/evolution
+              url: http://example.com/evolution
             - type: DataContract
-            url: http://example.com/data-contract
+              url: http://example.com/data-contract
             - type: ServerlessWorkflow
-            url: http://example.com/serverless-workflow
+              url: http://example.com/serverless-workflow
             - type: JSONStructure
-            url: http://example.com/json-structure
+              url: http://example.com/json-structure
             - type: Vocabulary
-            url: http://example.com/vocabulary
+              url: http://example.com/vocabulary
             - type: SpectralRules
-            url: http://example.com/spectral-rules
-         overlays:
+              url: http://example.com/spectral-rules
+          overlays:
             - type: APIs.io Search
-            url: https://example.com/apis-io-search
+              url: https://example.com/apis-io-search
             - type: API Evangelist Rating
-            url: http://example.com/api-evangelist-ratings
-         contact:
+              url: http://example.com/api-evangelist-ratings
+          contact:
             - FN: APIs.json
-            email: info@apisjson.org
-         prompts:
+              email: info@apisjson.org
+          prompts:
             - type: AgentPrompt
               url: http://example.com/prompts/example-api-onboarding.md
-         rules:
+          rules:
             - type: SpectralRules
               url: http://example.com/rules/example-api-rules.yml
-         workflows:
+          workflows:
             - type: Arazzo
               url: http://example.com/workflows/example-api-workflow.yml
       common:
-      - type: Signup
-         url: https://example.com/signup
-      - type: Login
-         url: https://example.com/login
-      - type: Authentication
-         url: http://example.com/authentication
-      - type: Blog
-         url: http://example.com/blog
-      - type: BlogFeed
-         url: http://example.com/blog-feed
-      - type: Pricing
-         url: http://example.com/pricing
-      - type: GettingStarted
-         url: http://example.com/getting-started
-      - type: Versioning
-         url: http://example.com/versioning
-      - type: TermsOfService
-         url: http://example.com/terms-of-service
-      - type: InterfaceLicense
-         url: http://example.com/interfacce-license
-      - type: PrivacyPolicy
-         url: http://example.com/privacy-policy
-      - type: DeprecationPolicy
-         url: http://example.com/deprecation-policy
-      - type: ServiceLevelAgreement
-         url: http://example.com/service-level-agreement
-      - type: Security
-         url: http://example.com/security
-      - type: SDKs
-         url: http://example.com/sdks
-      - type: StatusPage
-         url: http://example.com/status-page
-      - type: RateLimits
-         url: http://example.com/rate-limits
-      - type: Forums
-         url: http://example.com/forums
-      - type: Support
-         url: http://example.com/support
-      - type: ChangeLog
-         url: http://example.com/change-log
-      - type: ReleaseNotes
-         url: http://example.com/release-notes
-      - type: RoadMap
-         url: http://example.com/road-map
-      - type: Contact
-         url: http://example.com/contact
-      - type: ErrorCodes
-         url: http://example.com/error-codes
-      - type: GitHubOrg
-         url: http://example.com/github-org
-      - type: GitHubOrganization
-         url: http://example.com/github-organization
-      - type: GitHubRepo
-         url: http://example.com/github-repo
-      - type: GitHubRepository
-         url: http://example.com/github-repository
-      - type: Twitter
-         url: http://example.com/twitter
-      - type: X
-         url: http://example.com/x
-      - type: AlertsTwitterHandle
-         url: http://example.com/alerts-twitter-handle
-      - type: LinkedIn
-         url: http://example.com/linkedin
-      - type: YouTube
-         url: http://example.com/youtube
-      - type: Slack
-         url: http://example.com/slack
-      - type: Discord
-         url: http://example.com/discord
-      - type: StackOverflow
-         url: http://example.com/stackoverflow
-      - type: Community
-         url: http://example.com/community
-      - type: Webhooks
-         url: http://example.com/webhooks
-      - type: Integrations
-         url: http://example.com/integrations
-      - type: UseCases
-         url: http://example.com/use-cases
-      - type: Plans
-         url: http://example.com/plans
-      - type: Website
-         url: http://example.com
-      - type: Portal
-         url: http://example.com/portal
-      - type: DeveloperPortal
-         url: http://example.com/developer-portal
-      - type: CLI
-         url: http://example.com/cli
-      - type: Console
-         url: http://example.com/console
-      - type: Sandbox
-         url: http://example.com/sandbox
-      - type: Examples
-         url: http://example.com/examples
-      - type: FAQ
-         url: http://example.com/faq
-      - type: Summary
-         url: http://example.com/summary
-      - type: Compliance
-         url: http://example.com/compliance
-      - type: License
-         url: http://example.com/license
-      - type: Training
-         url: http://example.com/training
+        - type: Signup
+          url: https://example.com/signup
+        - type: Login
+          url: https://example.com/login
+        - type: Authentication
+          url: http://example.com/authentication
+        - type: Blog
+          url: http://example.com/blog
+        - type: BlogFeed
+          url: http://example.com/blog-feed
+        - type: Pricing
+          url: http://example.com/pricing
+        - type: GettingStarted
+          url: http://example.com/getting-started
+        - type: Versioning
+          url: http://example.com/versioning
+        - type: TermsOfService
+          url: http://example.com/terms-of-service
+        - type: InterfaceLicense
+          url: http://example.com/interfacce-license
+        - type: PrivacyPolicy
+          url: http://example.com/privacy-policy
+        - type: DeprecationPolicy
+          url: http://example.com/deprecation-policy
+        - type: ServiceLevelAgreement
+          url: http://example.com/service-level-agreement
+        - type: Security
+          url: http://example.com/security
+        - type: SDKs
+          url: http://example.com/sdks
+        - type: StatusPage
+          url: http://example.com/status-page
+        - type: RateLimits
+          url: http://example.com/rate-limits
+        - type: Forums
+          url: http://example.com/forums
+        - type: Support
+          url: http://example.com/support
+        - type: ChangeLog
+          url: http://example.com/change-log
+        - type: ReleaseNotes
+          url: http://example.com/release-notes
+        - type: RoadMap
+          url: http://example.com/road-map
+        - type: Contact
+          url: http://example.com/contact
+        - type: ErrorCodes
+          url: http://example.com/error-codes
+        - type: GitHubOrg
+          url: http://example.com/github-org
+        - type: GitHubOrganization
+          url: http://example.com/github-organization
+        - type: GitHubRepo
+          url: http://example.com/github-repo
+        - type: GitHubRepository
+          url: http://example.com/github-repository
+        - type: Twitter
+          url: http://example.com/twitter
+        - type: X
+          url: http://example.com/x
+        - type: AlertsTwitterHandle
+          url: http://example.com/alerts-twitter-handle
+        - type: LinkedIn
+          url: http://example.com/linkedin
+        - type: YouTube
+          url: http://example.com/youtube
+        - type: Slack
+          url: http://example.com/slack
+        - type: Discord
+          url: http://example.com/discord
+        - type: StackOverflow
+          url: http://example.com/stackoverflow
+        - type: Community
+          url: http://example.com/community
+        - type: Webhooks
+          url: http://example.com/webhooks
+        - type: Integrations
+          url: http://example.com/integrations
+        - type: UseCases
+          url: http://example.com/use-cases
+        - type: Plans
+          url: http://example.com/plans
+        - type: Website
+          url: http://example.com
+        - type: Portal
+          url: http://example.com/portal
+        - type: DeveloperPortal
+          url: http://example.com/developer-portal
+        - type: CLI
+          url: http://example.com/cli
+        - type: Console
+          url: http://example.com/console
+        - type: Sandbox
+          url: http://example.com/sandbox
+        - type: Examples
+          url: http://example.com/examples
+        - type: FAQ
+          url: http://example.com/faq
+        - type: Summary
+          url: http://example.com/summary
+        - type: Compliance
+          url: http://example.com/compliance
+        - type: License
+          url: http://example.com/license
+        - type: Training
+          url: http://example.com/training
       prompts:
-      - type: AgentPrompt
-        url: http://example.com/prompts/getting-started.md
+        - type: AgentPrompt
+          url: http://example.com/prompts/getting-started.md
       rules:
-      - type: SpectralRules
-        url: http://example.com/rules/org-rules.yml
+        - type: SpectralRules
+          url: http://example.com/rules/org-rules.yml
       workflows:
-      - type: Arazzo
-        url: http://example.com/workflows/org-workflow.yml
+        - type: Arazzo
+          url: http://example.com/workflows/org-workflow.yml
       overlays:
-      - type: APIs.io Search
-         url: https://example.com/apis-io-search
-      - type: API Evangelist Ratings
-         url: http://example.com/api-evangelist-ratings
+        - type: APIs.io Search
+          url: https://example.com/apis-io-search
+        - type: API Evangelist Ratings
+          url: http://example.com/api-evangelist-ratings
       include:
-      - name: Another Example API
-         url: http://example.com/apis.json
+        - name: Another Example API
+          url: http://example.com/apis.json
       maintainers:
-      - FN: Kin Lane
-         X-twitter: apievangelist
-         email: info@apievangelist.com
+        - FN: Kin Lane
+          X-twitter: apievangelist
+          email: info@apievangelist.com
 
 5. Security Considerations
 
@@ -1058,6 +1081,59 @@ Table of Contents
 	3scale networks
 	http://www.3scale.net/
 	email: steve@3scale.net
+
+----NEW IN 0.25
+
+Version 0.25 closes the gaps between the specification text, its examples and its JSON Schema,
+and registers the property types that a scoring pipeline and independent publishers were reaching
+for and the specification rejected.
+
+ Structure:
+
+ * aid is Recommended, not Mandatory, on the document and on each API. 72 of 151 live,
+   self-hosted APIs.json indexes omit the document aid, and 193 of their APIs omit one.
+ * networks is the name of the networks collection. The schema had called it network; that
+   spelling remains accepted.
+ * The Person or Organization fields in section 3.3 now match the examples and the schema (FN,
+   organizationName, X-twitter, X-github). The lowercase vCard spellings remain valid.
+ * Section 3.9 Extensions is written: x- or X- keys, any value type, at every level. Unknown
+   unprefixed keys are allowed and must be ignored by consumers.
+ * A workflow may carry a humanURL, as an API does.
+
+ Promoted types, by measured use. Counted across 37,661 APIs.json indexes in the APIs.io catalog
+ (99.8% of it), reading the type field of entries in properties, common, prompts, rules and
+ workflows, and separately across 153 live indexes that providers host themselves.
+
+ Leadership                   1,003 catalog indexes
+ DataSubjectRequest             125
+ Subprocessors                   77
+ AITransparency                  48
+ DataResidency                   42
+ IncidentNotification            28
+ MCPServerCard                   25 catalog, 8 self-hosted publishers
+ ExitAssistance                  20
+ GlobalPrivacyControl            15
+ NoticeAndAction                 15
+ SupportLifetime                  9
+ X402                             8 catalog, 4 self-hosted publishers
+ ProtectedResourceMetadata        7 catalog, 4 self-hosted publishers
+ AccessibilityConformance         6
+ AuthorizationServerMetadata      2 catalog, 4 self-hosted publishers
+ TransparencyReport               3
+ TrainingDataSummary              2
+ AgeAssurance                     1
+ BiometricDataPolicy              0
+
+ The privacy and regulation types are small, and four are barely used. They are registered because
+ the APIs.io Kin Score reads every one of them, so a provider publishing exactly the disclosure a
+ regulation asks for was failing schema validation. If a consumer is looking for a property type,
+ the specification should have a word for it. ProtectedResourceMetadata and
+ AuthorizationServerMetadata point at the RFC 9728 and RFC 8414 discovery documents. MCPServerCard
+ points at an MCP server card; X402 at an x402 payment surface.
+
+ Not promoted. The largest invalid values in the catalog (Hosts, Vendors, CapabilityMap,
+ ToolCrosswalk and similar) are internal pointers written by one catalog's own pipeline, not
+ vocabulary the market uses. They belong in extensions.
 
 ----NEW IN 0.23
 
@@ -1236,7 +1312,7 @@ under 0.21.
 
 Reserved Words for APIs.json / APIS.yaml Specification
 
- * Version 0.23
+ * Version 0.25
 
 Definition Elements:
 
@@ -1412,16 +1488,37 @@ Contact Elements:
 
 Maintainer Elements:
 
- * name
- * twitter
- * github
- * email
- * url
- * organizationName
- * organizationUrl
- * address
- * phoneNumber
- * image
+ * The Person or Organization elements in section 3.3 (FN, email, url, organizationName,
+   adr, tel, X-twitter, X-github, photo, vCard), plus extensions.
+
+ Registered in 0.25:
+
+ Organisation & Context:
+ * Leadership               [NEW in 0.25]
+
+ Privacy & Regulation:
+ * DataSubjectRequest       [NEW in 0.25]
+ * Subprocessors            [NEW in 0.25]
+ * AITransparency           [NEW in 0.25]
+ * DataResidency            [NEW in 0.25]
+ * IncidentNotification     [NEW in 0.25]
+ * ExitAssistance           [NEW in 0.25]
+ * GlobalPrivacyControl     [NEW in 0.25]
+ * NoticeAndAction          [NEW in 0.25]
+ * SupportLifetime          [NEW in 0.25]
+ * AccessibilityConformance [NEW in 0.25]
+ * TransparencyReport       [NEW in 0.25]
+ * TrainingDataSummary      [NEW in 0.25]
+ * AgeAssurance             [NEW in 0.25]
+ * BiometricDataPolicy      [NEW in 0.25]
+
+ Agent & AI Surface:
+ * MCPServerCard            [NEW in 0.25]
+ * X402                     [NEW in 0.25]
+
+ Security & Trust:
+ * ProtectedResourceMetadata    [NEW in 0.25]
+ * AuthorizationServerMetadata  [NEW in 0.25]
 
  Registered in 0.21-0.23 (previously absent from this listing):
 
@@ -1532,4 +1629,8 @@ Maintainer Elements:
  OpenAPI Source, OpenAPISource, Python SDK, Reference, Register,
  Registration, Ruby SDK, SDK, Security Policy, Sign Up, Source Code,
  Spectral, Spectral Rules, SpectralRuleset, Terms of Service, Terms of Use,
- TermsOfUse, Trust
+ TermsOfUse, Trust,
+ and, new in 0.25: LeadershipTeam, ExecutiveTeam, Management (Leadership); News,
+ Press (Newsroom); MCP (MCPServer); x402 (X402); A2AAgentCard (AgentCard); LLMSTxt
+ (LLMsTxt); ContentSignals (ContentSignal); Changelog (ChangeLog); Privacy Policy
+ (PrivacyPolicy); Status (StatusPage)
