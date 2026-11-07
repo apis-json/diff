@@ -2,8 +2,8 @@ Draft for Comment
 Name: API Discovery Format
 Informal Name: APIs.json or APIs.yaml
 Authors: Kin Lane, Steve Willmott
-Date: 05/02/2026
-Location: http://apisjson.org/format/apisjson_v0.21.txt
+Date: 08/11/2026
+Location: http://apisjson.org/format/apisjson_v0.22.txt
 
 A Simple Format for Publishing API Meta Data on the Web.
 
@@ -376,7 +376,7 @@ Table of Contents
       "created": "2026-05-01",
       "modified": "2026-05-01",
       "url": "http://example.com/apis.json",
-      "specificationVersion": "0.21",
+      "specificationVersion": "0.22",
       "apis": [
          {
             "aid": "apis.json:example-api",
@@ -776,7 +776,7 @@ Table of Contents
       created: '2026-05-01'
       modified: '2026-05-01'
       url: http://example.com/apis.json
-      specificationVersion: '0.21'
+      specificationVersion: '0.22'
       apis:
       - aid: apis.json:example-api
          name: Example API
@@ -1024,11 +1024,117 @@ Table of Contents
 	http://www.3scale.net/
 	email: steve@3scale.net
 
+----NEW IN 0.22
+
+Version 0.22 is a VOCABULARY release. It does not change the structure of an
+APIs.json document; it widens the set of property types the specification
+recognises, and it accepts the synonyms this vocabulary already has in the wild.
+
+Promoted by measured use. Every type below was counted across 26,598 published
+APIs.json indexes; the ones promoted for use are carried by at least 100 distinct
+organizations. DomainSecurity alone appears on 23,135 of them and was invalid
+under 0.21.
+
+ Security and Trust:
+
+ * DomainSecurity         [NEW in 0.22]   23,135 organizations
+ * VulnerabilityDisclosure [NEW in 0.22]   4,112 organizations
+ * TrustCenter            [NEW in 0.22]   3,774 organizations
+ * WellKnown              [NEW in 0.22]   3,267 organizations
+ * SecurityTxt            [NEW in 0.22]   854 organizations
+ * OAuthScopes            [NEW in 0.22]   2,025 organizations
+ * OpenIDConnect          [NEW in 0.22]   165 organizations
+ * SecurityPolicy         [NEW in 0.22]
+ * APICatalog             [NEW in 0.22]
+
+ Agent and AI Surface:
+
+ * AgenticAccess          [NEW in 0.22]   6,520 organizations
+ * LLMsTxt                [NEW in 0.22]   6,926 organizations
+ * AgentSkill             [NEW in 0.22]   2,620 organizations
+ * AgentCard              [NEW in 0.22]
+ * MCPClient              [NEW in 0.22]
+ * A2A                    [NEW in 0.22]
+
+ Operational and Developer Experience:
+
+ * Lifecycle              [NEW in 0.22]   4,026 organizations
+ * Conventions            [NEW in 0.22]   3,685 organizations
+ * ErrorCatalog           [NEW in 0.22]   2,982 organizations
+ * DataModel              [NEW in 0.22]   2,802 organizations
+ * Packages               [NEW in 0.22]   3,096 organizations
+ * Idempotency            [NEW in 0.22]   548 organizations
+ * Components             [NEW in 0.22]   708 organizations
+ * Deprecation            [NEW in 0.22]   750 organizations
+ * HelpCenter             [NEW in 0.22]   1,000 organizations
+ * KnowledgeBase          [NEW in 0.22]
+ * MailingList            [NEW in 0.22]
+ * CodeExamples           [NEW in 0.22]   238 organizations
+ * Tutorials              [NEW in 0.22]   145 organizations
+ * DeclineCodes           [NEW in 0.22]   108 organizations
+ * Playground             [NEW in 0.22]
+ * Quickstart             [NEW in 0.22]
+ * SignUp                 [NEW in 0.22]   4,434 organizations
+ * Postman                [NEW in 0.22]   384 organizations
+ * Protobuf               [NEW in 0.22]   110 organizations
+
+ Open Source and Supply Chain:
+
+ * SourceCode             [NEW in 0.22]   645 organizations
+ * Repository             [NEW in 0.22]   129 organizations
+ * HelmChart              [NEW in 0.22]
+ * DockerImage            [NEW in 0.22]
+ * KubernetesOperator     [NEW in 0.22]
+ * ContributionGuide      [NEW in 0.22]
+ * CodeOfConduct          [NEW in 0.22]
+ * Releases               [NEW in 0.22]
+ * IssueTracker           [NEW in 0.22]
+ * Contributors           [NEW in 0.22]
+ * Maintainers            [NEW in 0.22]
+ * SBOM                   [NEW in 0.22]
+ * Attestation            [NEW in 0.22]
+ * Provenance             [NEW in 0.22]
+
+ Organisation and Context:
+
+ * ParentCompany          [NEW in 0.22]   130 organizations
+ * Partners               [NEW in 0.22]   399 organizations
+ * InvestorRelations      [NEW in 0.22]   371 organizations
+ * Newsroom               [NEW in 0.22]   317 organizations
+ * PressReleases          [NEW in 0.22]   128 organizations
+ * CaseStudies            [NEW in 0.22]   163 organizations
+ * ContactUs              [NEW in 0.22]   178 organizations
+ * Crunchbase             [NEW in 0.22]   254 organizations
+ * Wikipedia              [NEW in 0.22]   179 organizations
+ * Instagram              [NEW in 0.22]   386 organizations
+ * Facebook               [NEW in 0.22]   369 organizations
+ * BlogRSS                [NEW in 0.22]   556 organizations
+ * Newsletter             [NEW in 0.22]   105 organizations
+ * Events                 [NEW in 0.22]   127 organizations
+ * Roadmap                [NEW in 0.22]   155 organizations
+ * Sustainability         [NEW in 0.22]   137 organizations
+
+ Synonyms:
+
+ 0.22 also accepts recognised alternate spellings of types the specification
+ already defines — "Terms of Service" beside TermsOfService, "Sign Up" beside
+ SignUp, LlmsText beside LLMsTxt, "Python SDK" beside SDKs, and so on. The
+ canonical name is the one listed above; a synonym is equally valid.
+
+ A specification that only accepts one spelling does not describe the web as it
+ is. Publishers should prefer the canonical name, and consumers should accept
+ either.
+
+ Extensions:
+
+ Custom property types are prefixed x- or X-. Both cases are valid. Lower case
+ matches the convention used by OpenAPI and JSON Schema and is preferred.
+
 ----RESERVED WORDS
 
 Reserved Words for APIs.json / APIS.yaml Specification
 
- * Version 0.21
+ * Version 0.22
 
 Definition Elements:
 
