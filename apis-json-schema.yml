@@ -1,7 +1,7 @@
 ---
 $id: https://github.com/apis-json/api-json/blob/develop/spec/
 $schema: https://json-schema.org/draft/2020-12/schema
-title: JSON Schema for APIs.json 0.19
+title: JSON Schema for APIs.json 0.20
 type: object
 additionalProperties: false
 patternProperties:
@@ -144,7 +144,7 @@ $defs:
       type:
         type: string
         description: One of the designated API property types or a custom one prefixed with x-.
-        pattern: "^(Swagger)$|^(OpenAPI)$|^(JSONSchema)$|^(GraphQLSchema)$|^(PostmanCollection)$|^(PostmanWorkspace)$|^(AsyncAPI)$|^(RAML)$|^(Blueprint)$|^(WADL)$|^(WSDL)$|^(GettingStarted)$|^(Documentation)$|^(Authentication)$|^(Versioning)$|^(Signup)$|^(Login)$|^(TermsOfService)$|^(InterfaceLicense)$|^(PrivacyPolicy)$|^(DeprecationPolicy)$|^(ServiceLevelAgreement)$|^(Security)$|^(SDKs)$|^(StatusPage)$|^(Pricing)$|^(RateLimits)$|^(Blog)$|^(BlogFeed)$|^(Forums)$|^(Support)$|^(ChangeLog)$|^(RoadMap)$|^(Contact)$|^(ErrorCodes)$|^(GitHubOrg)$|^(GitHubRepo)$|^(Twitter)$|^(AlertsTwitterHandle)$|^(Webhooks)$|^(Integrations)$|^(OpenAIPluginManifest)$|^(X-[A-Za-z0-9\\-]*)$"
+        pattern: "^(Swagger)$|^(OpenAPI)$|^(JSONSchema)$|^(GraphQLSchema)$|^(PostmanCollection)$|^(PostmanWorkspace)$|^(AsyncAPI)$|^(RAML)$|^(Blueprint)$|^(WADL)$|^(WSDL)$|^(GettingStarted)$|^(Documentation)$|^(Authentication)$|^(Versioning)$|^(Signup)$|^(Login)$|^(TermsOfService)$|^(InterfaceLicense)$|^(PrivacyPolicy)$|^(DeprecationPolicy)$|^(ServiceLevelAgreement)$|^(Security)$|^(SDKs)$|^(StatusPage)$|^(Pricing)$|^(RateLimits)$|^(Blog)$|^(BlogFeed)$|^(Forums)$|^(Support)$|^(ChangeLog)$|^(RoadMap)$|^(Contact)$|^(ErrorCodes)$|^(GitHubOrg)$|^(GitHubRepo)$|^(Twitter)$|^(AlertsTwitterHandle)$|^(Webhooks)$|^(Integrations)$|^(OpenAIPluginManifest)$|^(MockRestServer)$|^(MockMCPServer)$|^(BackstageApi)$|^(ModelContextProtocol)$|^(ApiExamples)$|^(ApiExamples)$|^(LlmsText)$|^(JsonStructure)$|^(Summary)$|^(AgentSkills)$|^(GitHubHttpUrl)$|^(GitHubSshUrl)$|^(GitHubIssues)$|^(GitHubDiscussions)$|^(Standards)$|^(Services)$|^(X-[A-Za-z0-9\\-]*)$"
       mediaType:
         type: string 
         description: IANA media type representing the property.       
@@ -152,7 +152,9 @@ $defs:
         type: string
         description: The URL for the property. * must be url or data.
       data:
-        type: object   
+        oneOf:
+          - type: object   
+          - type: array
         description: The data for the property. * must be url or data  
       tags:
         type: array
@@ -208,6 +210,22 @@ properties:
   aid:
     type: string
     description: unique identifier for APIs.json 
+  visibility:
+    type: string
+    description: The visibility for the APIs.json collection.
+    enum:
+      - Public
+      - Private
+      - Partner 
+  rating:
+    type: string
+    description: The rating for the APIs.json collection.
+    enum:
+      - A
+      - B
+      - C
+      - D
+      - F       
   type:
     type: string
     description: The type of the APIs.json collection.
@@ -215,6 +233,13 @@ properties:
       - Index
       - Template
       - Example  
+      - Collection
+      - Sandbox
+      - Knowledgebase
+      - Blueprint
+      - Contract
+      - Search
+      - Network
   position:
     type: string
     description: The position of the maintainer of APIs.json.
